@@ -1,0 +1,92 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
+}
+/* ===== Display block & inline ===== */
+.block {
+  display: block;
+  background: #0077b6;
+  color: white;
+  padding: 10px;
+  margin: 10px 0;
+}
+.inline {
+  display: inline;
+  background: #90e0ef;
+  padding: 5px;
+  margin: 5px;
+}
+.inline-block {
+  display: inline-block;
+  background: #00b4d8;
+  padding: 10px;
+  margin: 5px;
+  width: 100px;
+  text-align: center;
+}
+/* ===== Flexbox ===== */
+.flex-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: #caf0f8;
+  padding: 20px;
+  margin: 20px 0;
+}
+.flex-item {
+  background: #03045e;
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+/* ===== Positioning ===== */
+.posisi-box {
+  position: relative;
+  background: #ade8f4;
+  padding: 30px;
+  margin: 20px 0;
+}
+.absolute-child {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: crimson;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+.fixed-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #023e8a;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  z-index: 99;
+}
+/* ===== Grid layout ===== */
+.grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 15px;
+  margin: 20px;
+}
+.grid-item {
+  background: #48cae4;
+  padding: 20px;
+  text-align: center;
+  border-radius: 5px;
+}
+/* ===== Ukuran & Overflow ===== */
+.overflow-box {
+  background: #e0e0e0;
+  width: 300px;
+  height: 100px;
+  overflow: auto;
+  padding: 10px;
+  margin: 20px auto;
+  border: 1px solid #ccc;
+}

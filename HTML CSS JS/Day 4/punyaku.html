@@ -1,0 +1,152 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hari ke 4</title>
+    <style>
+        * {
+            font-family: sans-serif;
+        }
+        body{
+          background-color: aliceblue;
+        }
+        a:hover {
+          background-color: rgb(168, 168, 209);
+          transform: scale(1.1);
+          transition: 1s ease;
+        }
+        a {
+          color: black;
+          text-decoration: none;
+        }
+        a::after{
+          color: black;
+        }
+        header {
+          border-radius: 4px;
+          position: fixed;
+          margin: 0;
+          top: 0;
+          width: 100%;
+          background-color: #3388b3;
+          color: white;
+          padding: 0px;
+          text-align: center;
+          z-index: 10;
+        }
+
+        .box-container {
+          display: flex;
+          align-items: center; 
+          justify-content: center;
+          background-color: white;
+          padding: 20px;
+          border-radius: 10px;
+          gap: 20px; /* jarak antara gambar dan teks */
+          max-width: 800px;
+          margin: 100px auto;
+          box-shadow: 3px 5px 100px;
+        
+        }
+
+        .gambar {
+          border-radius: 10px;
+        }
+
+        .text {
+          flex: 1; /* biar teks ngisi sisa ruang */
+        }
+
+        .fleks {
+          display: flex;
+          justify-content: center;
+          gap: 20px;
+          flex-wrap: wrap; /* biar responsif di layar kecil */
+          margin: 40px auto;
+        }
+
+        .konten-box {
+          position: relative; /* syarat supaya child absolute bisa nempel */
+          background-color: #f0f0f0;
+          padding: 20px;
+          border-radius: 12px;
+          box-shadow: 0 10px 50px rgba(0,0,0,0.1);
+          width: 300px;
+          margin: 0;
+        
+        }
+
+        .label-new {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          background-color: crimson;
+          color: white;
+          font-size: 12px;
+          padding: 4px 8px;
+          border-radius: 999px;
+          font-weight: bold;
+          letter-spacing: 1px;
+        }
+
+        footer {
+          border-radius: 10px;
+          margin: 0;
+          width: 100%;
+          background-color: #508dac;
+          color: white;
+          padding: 2px;
+          text-align: center;
+          z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <p>
+                Kampung AI - Masa Depan dimulai dari desa
+            </p>
+        </div>
+    </header>
+
+    <main>
+        <div class="box-container">
+            <h2>
+                Selamat datang di Kampung AI
+            </h2>
+            <p>
+                Belajar teknologi, robotika, dan kecerdasan buatan langsung dari desa! Dirintis oleh Lim Almadyuni 
+            </p>
+            <img src="https://ik.imagekit.io/qocdqd4er/gambar.png?updatedAt=1752417048765" alt="gambar gabut" width="200">
+        </div>
+
+        <div class="fleks">
+
+            <a href="" class="konten-box">
+              <h2>Belajar Gratis</h2>
+              <p>Modul Pembelaran bebas akses untuk semua kalangan</p>
+              <span class="label-new">BETA</span>
+            </a>
+        
+            <a href="" class="konten-box">
+              <h2>Berita Harian</h2>
+              <p>Info terupdate mengenai perkembangan AI</p>
+            </a>
+        
+            <a href="" class="konten-box">
+              <h2>Diskusi</h2>
+              <p>Ngobrol bareng tongkrongan AI mu, biar pembicaraan lebih berbobot</p>
+            </a>
+
+        </div>
+        </main>
+
+        <footer>
+            <p>
+                Kampung AI, dirintis oleh pemuda biasa aja yang bisa membuat dampak luar biasa
+            </p>
+            <p>&copy; Dibuat oleh Lim dengan full power sampe pusing</p>
+        </footer>
+</body>
+</html>

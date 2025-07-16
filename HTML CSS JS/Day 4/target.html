@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kampung AI</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      background-color: #f4f4f4;
+    }
+
+    /* ====== FIXED HEADER ====== */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background-color: #023047;
+      color: white;
+      padding: 15px;
+      text-align: center;
+      z-index: 10;
+    }
+
+    /* ====== HERO FLEX LAYOUT ====== */
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1000px;
+      margin: 100px auto 50px;
+      padding: 30px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .hero .kiri {
+      flex: 1;
+      padding-right: 30px;
+    }
+
+    .hero .kanan {
+      flex: 1;
+    }
+
+    .hero img {
+      width: 100%;
+      max-width: 400px;
+      border-radius: 10px;
+    }
+
+    /* ====== GRID FITUR ====== */
+    .fitur {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto 50px;
+      padding: 20px;
+    }
+
+    .fitur .card {
+      background: #8ecae6;
+      padding: 20px;
+      border-radius: 8px;
+      color: #023047;
+      position: relative;
+    }
+
+    .fitur .card .badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: crimson;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-size: 12px;
+    }
+
+    /* ====== OVERFLOW BOX ====== */
+    .overflow-box {
+      background: #eeeeee;
+      width: 90%;
+      max-width: 600px;
+      height: 100px;
+      margin: 0 auto 100px;
+      padding: 10px;
+      overflow: auto;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background: #219ebc;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER FIXED -->
+  <header>
+    Kampung AI – Masa Depan Dimulai dari Desa 🧠
+  </header>
+
+  <!-- BAGIAN HERO -->
+  <section class="hero">
+    <div class="kiri">
+      <h1>Selamat Datang di Kampung AI</h1>
+      <p>Belajar teknologi, robotika, dan kecerdasan buatan langsung dari desa! Dirintis oleh Lim dari Madiun 💪</p>
+    </div>
+    <div class="kanan">
+      <img src="https://ik.imagekit.io/qocdqd4er/gambar.png?updatedAt=1752417048765" alt="Ilustrasi AI">
+    </div>
+  </section>
+
+  <!-- GRID FITUR -->
+  <section class="fitur">
+    <div class="card">
+      <div class="badge">NEW</div>
+      <h3>Belajar Gratis</h3>
+      <p>Modul dan panduan tersedia gratis untuk semua kalangan.</p>
+    </div>
+    <div class="card">
+      <h3>Teknologi Terkini</h3>
+      <p>Materi update mulai dari HTML sampai AI & Web3.</p>
+    </div>
+    <div class="card">
+      <h3>Komunitas Aktif</h3>
+      <p>Diskusi dan bimbingan bareng tim edukasi Kampung AI.</p>
+    </div>
+  </section>
+
+  <!-- OVERFLOW TEST -->
+  <div class="overflow-box">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque, quaerat temporibus eveniet officiis libero tempore, ratione distinctio! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Neque, quaerat temporibus eveniet officiis libero tempore, ratione distinctio!
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2025 Kampung AI. Dibuat dengan ❤️ oleh Lim.
+  </footer>
+
+</body>
+</html>
