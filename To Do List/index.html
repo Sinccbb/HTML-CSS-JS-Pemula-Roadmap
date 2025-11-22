@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="id" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produktif Yokkk!!</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .task-enter {
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Font Timer Lebar Tetap */
+        .font-timer {
+            font-family: 'JetBrains Mono', monospace; 
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Gaya saat item di-drag */
+        .dragging {
+            opacity: 0.5;
+            border: 2px dashed #14b8a6; /* Teal dashed border */
+            background-color: #f0fdfa;
+        }
+        .dark .dragging {
+            background-color: #134e4a;
+            border-color: #2dd4bf;
+        }
+
+        /* Cursor Grab cuma di handle */
+        .drag-handle {
+            cursor: grab;
+        }
+        .drag-handle:active {
+            cursor: grabbing;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .dark ::-webkit-scrollbar-thumb { background: #475569; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="h-screen overflow-hidden flex flex-col md:flex-row text-slate-800 bg-gray-50 dark:bg-slate-900 dark:text-gray-100 transition-colors duration-300">
+
+    <!-- BAGIAN KIRI: Input -->
+    <div class="w-full md:w-1/3 bg-white dark:bg-slate-800 shadow-xl p-6 flex flex-col z-10 relative border-r border-gray-100 dark:border-slate-700 transition-colors duration-300">
+        
+        <div class="mb-8 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl lg:text-3xl font-bold text-teal-600 dark:text-teal-400 tracking-tighter">
+                    <i class="fas fa-check-double mr-2"></i>PRODUKTIF!
+                </h1>
+                <p class="text-gray-400 text-xs lg:text-sm">Atur. Geser. Kelar.</p>
+            </div>
+            <button onclick="toggleTheme()" class="p-2 rounded-full bg-gray-100 dark:bg-slate-700 hover:bg-gray-200 dark:hover:bg-slate-600 transition text-gray-600 dark:text-yellow-400">
+                <i id="themeIcon" class="fas fa-moon text-xl"></i>
+            </button>
+        </div>
+
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-bold text-gray-600 dark:text-gray-300 mb-1">Rencana hari ini?</label>
+                <input type="text" id="taskInput" onkeyup="checkEnter(event)" placeholder="Ketik tugasmu di sini..." 
+                    class="w-full p-3 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-xl focus:outline-none focus:border-teal-500 transition">
+            </div>
+
+            <div class="flex gap-2">
+                <div class="w-1/2">
+                    <label class="block text-sm font-bold text-gray-600 dark:text-gray-300 mb-1">Menit</label>
+                    <input type="number" id="minInput" onkeyup="checkEnter(event)" min="0" placeholder="0" value="25"
+                        class="w-full p-3 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-xl focus:outline-none focus:border-teal-500 transition text-center">
+                </div>
+                <div class="w-1/2">
+                    <label class="block text-sm font-bold text-gray-600 dark:text-gray-300 mb-1">Detik</label>
+                    <input type="number" id="secInput" onkeyup="checkEnter(event)" min="0" max="59" placeholder="0" 
+                        class="w-full p-3 border-2 border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white rounded-xl focus:outline-none focus:border-teal-500 transition text-center">
+                </div>
+            </div>
+
+            <button onclick="addTask()" 
+                class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg transform active:scale-95 transition flex justify-center items-center gap-2">
+                <i class="fas fa-plus-circle"></i> Tambah List (Enter)
+            </button>
+        </div>
+
+        <!-- FOOTER KIRI -->
+        <div class="mt-auto pt-6 border-t border-gray-100 dark:border-slate-700 flex flex-col gap-3">
+            <button onclick="resetAll()" class="w-full text-red-500 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-900/20 font-semibold py-2 px-4 rounded-lg transition flex justify-center items-center gap-2">
+                <i class="fas fa-trash-alt"></i> Hapus Semua
+            </button>
+
+            <a href="https://www.instagram.com/lim.almadyuni.py/" target="_blank" 
+               class="group flex items-center justify-center gap-2 text-xs font-medium text-gray-400 hover:text-pink-600 dark:hover:text-pink-400 transition-colors duration-300 py-2">
+                <i class="fab fa-instagram text-lg group-hover:scale-110 transition-transform"></i>
+                <span>Follow me</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- BAGIAN KANAN: List -->
+    <div class="w-full md:w-2/3 bg-teal-50 dark:bg-slate-900 p-4 md:p-8 overflow-y-auto relative transition-colors duration-300">
+        <div class="absolute top-0 right-0 opacity-5 dark:opacity-10 pointer-events-none">
+            <i class="fas fa-stopwatch text-[15rem] text-teal-900 dark:text-teal-200"></i>
+        </div>
+
+        <h2 class="text-2xl font-bold text-teal-900 dark:text-teal-100 mb-6">Daftar Kegiatan ⏳</h2>
+
+        <!-- Tambahkan ID 'dragList' biar gampang diakses JS -->
+        <div id="taskList" class="grid grid-cols-1 gap-4 pb-20"></div>
+        
+        <div id="emptyState" class="hidden flex flex-col items-center justify-center h-64 text-gray-400 dark:text-gray-500">
+            <i class="fas fa-clipboard-list text-6xl mb-4 text-teal-200 dark:text-teal-800"></i>
+            <p class="text-lg">Masih kosong nihh!</p>
+        </div>
+    </div>
+
+    <audio id="alarmSound" src="https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3"></audio>
+
+    <script>
+        // === DATA ===
+        let tasks = JSON.parse(localStorage.getItem('generalTasks')) || [];
+        let timerInterval = null;
+        let dragSrcEl = null; // Variabel buat nyimpen item yang lagi di-drag
+
+        // === STARTUP ===
+        document.addEventListener('DOMContentLoaded', () => {
+            loadTheme();
+            renderTasks(); 
+            
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(globalTimerTick, 50);
+
+            window.addEventListener('beforeunload', handleBeforeUnload);
+            document.addEventListener('visibilitychange', handleVisibilityChange);
+        });
+
+        // === THEME ===
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        }
+        function loadTheme() {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.getElementById('themeIcon').classList.replace('fa-moon', 'fa-sun');
+            }
+        }
+
+        // === INPUT HANDLING ===
+        function checkEnter(event) {
+            if (event.key === "Enter") addTask();
+        }
+
+        function addTask() {
+            const taskName = document.getElementById('taskInput').value;
+            const mins = parseInt(document.getElementById('minInput').value) || 0;
+            const secs = parseInt(document.getElementById('secInput').value) || 0;
+
+            if (!taskName.trim()) { alert("Nama tugasnya diisi dulu ya!"); return; }
+            if (mins === 0 && secs === 0) { alert("Waktu minimal 1 detik ya!"); return; }
+
+            const totalMs = ((mins * 60) + secs) * 1000;
+
+            const newTask = {
+                id: Date.now(),
+                name: taskName,
+                originalTimeMs: totalMs,
+                remainingTimeMs: totalMs,
+                isRunning: false,
+                isCompleted: false,
+                lastUpdate: Date.now()
+            };
+
+            tasks.push(newTask);
+            saveData();
+            renderTasks();
+            
+            document.getElementById('taskInput').value = '';
+            document.getElementById('secInput').value = '';
+            document.getElementById('taskInput').focus();
+        }
+
+        function deleteTask(id) {
+            tasks = tasks.filter(t => t.id !== id);
+            saveData();
+            renderTasks();
+        }
+
+        function resetAll() {
+            if(confirm("Yakin hapus semua?")) {
+                tasks = [];
+                saveData();
+                renderTasks();
+            }
+        }
+
+        function toggleTimer(id) {
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                if (task.remainingTimeMs <= 0) {
+                    task.remainingTimeMs = task.originalTimeMs;
+                    task.isCompleted = false;
+                    task.isRunning = false;
+                } else {
+                    task.isRunning = !task.isRunning;
+                    task.lastUpdate = Date.now();
+                }
+                saveData();
+                renderTasks();
+            }
+        }
+
+        // === DRAG AND DROP LOGIC (THE MAGIC) ===
+        
+        // Fungsi ini dipanggil saat tombol mouse ditekan di Ikon Grip
+        function enableDrag(element) {
+            // Kita aktifkan mode draggable hanya ketika grip ditekan
+            element.setAttribute('draggable', 'true');
+        }
+
+        function addDragEvents(item) {
+            item.addEventListener('dragstart', handleDragStart);
+            item.addEventListener('dragover', handleDragOver);
+            item.addEventListener('dragenter', handleDragEnter);
+            item.addEventListener('dragleave', handleDragLeave);
+            item.addEventListener('drop', handleDrop);
+            item.addEventListener('dragend', handleDragEnd);
+        }
+
+        function handleDragStart(e) {
+            this.style.opacity = '0.4';
+            dragSrcEl = this;
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/html', this.innerHTML);
+            this.classList.add('dragging');
+        }
+
+        function handleDragOver(e) {
+            if (e.preventDefault) {
+                e.preventDefault(); // Penting buat ngebolehin drop
+            }
+            e.dataTransfer.dropEffect = 'move';
+            return false;
+        }
+
+        function handleDragEnter(e) {
+            this.classList.add('over');
+        }
+
+        function handleDragLeave(e) {
+            this.classList.remove('over');
+        }
+
+        function handleDrop(e) {
+            if (e.stopPropagation) {
+                e.stopPropagation();
+            }
+
+            if (dragSrcEl !== this) {
+                // Cari index asal dan index tujuan di array tasks
+                const srcId = Number(dragSrcEl.getAttribute('data-id'));
+                const destId = Number(this.getAttribute('data-id'));
+
+                const srcIndex = tasks.findIndex(t => t.id === srcId);
+                const destIndex = tasks.findIndex(t => t.id === destId);
+
+                // Pindahkan item di array
+                if (srcIndex > -1 && destIndex > -1) {
+                    const [movedItem] = tasks.splice(srcIndex, 1);
+                    tasks.splice(destIndex, 0, movedItem);
+                    
+                    saveData();
+                    renderTasks();
+                }
+            }
+            return false;
+        }
+
+        function handleDragEnd(e) {
+            this.style.opacity = '1';
+            this.classList.remove('dragging');
+            
+            // Matikan lagi draggable biar gak bisa di-drag dari sembarang tempat
+            this.setAttribute('draggable', 'false'); 
+
+            let items = document.querySelectorAll('.task-item');
+            items.forEach(function (item) {
+                item.classList.remove('over');
+            });
+        }
+
+
+        // === MESIN WAKTU ===
+        function globalTimerTick() {
+            const now = Date.now();
+            let needSave = false;
+
+            tasks.forEach(task => {
+                if (task.isRunning && task.remainingTimeMs > 0) {
+                    const delta = now - task.lastUpdate;
+                    
+                    if (delta > 0) {
+                        task.remainingTimeMs -= delta;
+                        task.lastUpdate = now;
+
+                        if (task.remainingTimeMs <= 0) {
+                            task.remainingTimeMs = 0;
+                            task.isRunning = false;
+                            task.isCompleted = true;
+                            playAlarm();
+                            needSave = true;
+                            renderTasks();
+                        } else {
+                            updateTimerDisplayOnly(task);
+                        }
+                    }
+                } else {
+                    task.lastUpdate = now;
+                }
+            });
+
+            if (needSave) saveData();
+        }
+
+        function formatTime(ms) {
+            const m = Math.floor(ms / 60000).toString().padStart(2, '0');
+            const s = Math.floor((ms % 60000) / 1000).toString().padStart(2, '0');
+            const msDisplay = Math.floor((ms % 1000) / 10).toString().padStart(2, '0');
+            return { m, s, msDisplay };
+        }
+
+        function updateTimerDisplayOnly(task) {
+            const timerEl = document.getElementById(`timer-${task.id}`);
+            if (timerEl) {
+                const { m, s, msDisplay } = formatTime(task.remainingTimeMs);
+                timerEl.innerHTML = `
+                    <span>${m}:${s}</span>
+                    <span class="text-xl lg:text-2xl opacity-60">.${msDisplay}</span>
+                `;
+            }
+        }
+
+        // === RENDER FULL UI ===
+        function renderTasks() {
+            const listContainer = document.getElementById('taskList');
+            const emptyState = document.getElementById('emptyState');
+            
+            listContainer.innerHTML = '';
+
+            if (tasks.length === 0) {
+                emptyState.classList.remove('hidden');
+            } else {
+                emptyState.classList.add('hidden');
+                
+                tasks.forEach(task => {
+                    const { m, s, msDisplay } = formatTime(task.remainingTimeMs);
+                    
+                    let cardClass = "bg-white dark:bg-slate-800 border-l-4 border-teal-400 dark:border-teal-600";
+                    let btnIcon = "fa-play";
+                    let btnText = "Mulai";
+                    let btnColor = "bg-teal-100 dark:bg-teal-900/50 text-teal-700 dark:text-teal-300 hover:bg-teal-200 dark:hover:bg-teal-900";
+                    let timeColor = "text-gray-600 dark:text-gray-300";
+                    let statusText = "";
+
+                    if (task.isRunning) {
+                        cardClass = "bg-teal-50 dark:bg-slate-800/80 border-l-4 border-blue-500 shadow-lg ring-2 ring-blue-200 dark:ring-blue-900";
+                        btnIcon = "fa-pause";
+                        btnText = "Pause";
+                        btnColor = "bg-amber-100 dark:bg-amber-900/50 text-amber-700 dark:text-amber-300 hover:bg-amber-200";
+                        timeColor = "text-blue-600 dark:text-blue-400 font-black scale-110 transform transition-transform"; 
+                        statusText = "<span class='text-xs text-blue-500 font-bold ml-2 animate-pulse'>• SEDANG JALAN</span>";
+                    } 
+                    else if (task.isCompleted) {
+                        cardClass = "bg-gray-100 dark:bg-slate-800/50 border-l-4 border-gray-400 opacity-60";
+                        btnIcon = "fa-redo"; 
+                        btnText = "Ulang";
+                        btnColor = "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300";
+                        timeColor = "text-gray-500 font-bold line-through";
+                    } 
+                    else if (task.remainingTimeMs < task.originalTimeMs) {
+                        statusText = "<span class='text-xs text-amber-500 font-semibold ml-2'>• PAUSE</span>";
+                    }
+
+                    // STRUKTUR HTML DENGAN DRAG HANDLE DI KIRI
+                    // draggable="false" secara default, nanti jadi "true" pas handle ditekan
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = `task-item ${cardClass} p-0 pr-4 rounded-xl shadow-sm flex items-center gap-4 task-enter transition-all duration-300 dark:shadow-black/30 overflow-hidden group relative`;
+                    itemDiv.setAttribute('data-id', task.id);
+                    itemDiv.setAttribute('draggable', 'false'); 
+
+                    itemDiv.innerHTML = `
+                        <!-- DRAG HANDLE (Bagian Kiri Kotak) -->
+                        <!-- onmousedown = "Aktifkan Drag" -->
+                        <div class="drag-handle self-stretch w-12 bg-gray-100 dark:bg-slate-700/50 hover:bg-teal-100 dark:hover:bg-teal-900/50 flex items-center justify-center text-gray-400 hover:text-teal-600 cursor-grab transition-colors"
+                             onmousedown="enableDrag(this.parentElement)"
+                             title="Tahan & Geser untuk mengatur urutan">
+                            <i class="fas fa-grip-vertical"></i>
+                        </div>
+
+                        <!-- KONTEN UTAMA -->
+                        <div class="flex-1 py-5 text-center sm:text-left">
+                            <h3 class="font-bold text-lg dark:text-white ${task.isCompleted ? 'line-through text-gray-500' : ''}">
+                                ${task.name} ${statusText}
+                            </h3>
+                            <span class="text-xs text-gray-400">Target: ${Math.floor(task.originalTimeMs/60000)} menit</span>
+                        </div>
+
+                        <div id="timer-${task.id}" class="text-4xl lg:text-5xl font-timer tracking-tight ${timeColor} flex items-baseline gap-1 min-w-[180px] justify-center sm:justify-end transition-colors duration-300">
+                            <span>${m}:${s}</span>
+                            <span class="text-xl lg:text-2xl opacity-60">.${msDisplay}</span>
+                        </div>
+
+                        <div class="flex gap-2 sm:ml-4">
+                            <button onclick="toggleTimer(${task.id})" 
+                                class="px-5 py-3 rounded-xl font-bold text-sm transition shadow-sm ${btnColor} flex items-center gap-2 min-w-[110px] justify-center transform active:scale-95">
+                                <i class="fas ${btnIcon}"></i> ${btnText}
+                            </button>
+                            <button onclick="deleteTask(${task.id})" 
+                                class="px-4 py-3 rounded-xl text-gray-400 hover:bg-red-100 dark:hover:bg-red-900/30 hover:text-red-500 transition" title="Hapus">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+
+                    // Pasang Event Listener Drag & Drop ke elemen ini
+                    addDragEvents(itemDiv);
+                    listContainer.appendChild(itemDiv);
+                });
+            }
+        }
+
+        // === SAFETY FEATURES ===
+        function handleBeforeUnload(e) {
+            if (tasks.some(t => t.isRunning)) {
+                e.preventDefault(); e.returnValue = ''; 
+                saveDataOnClose();
+            }
+        }
+        function handleVisibilityChange() {
+            if (document.visibilityState === 'hidden') saveDataOnClose();
+        }
+        function saveDataOnClose() {
+            const tasksToSave = tasks.map(t => {
+                if (t.isRunning) return { ...t, remainingTimeMs: t.originalTimeMs, isRunning: false };
+                return t;
+            });
+            localStorage.setItem('generalTasks', JSON.stringify(tasksToSave));
+        }
+        function saveData() {
+            localStorage.setItem('generalTasks', JSON.stringify(tasks));
+        }
+        function playAlarm() {
+            document.getElementById('alarmSound').play().catch(e => console.log("Audio butuh interaksi"));
+        }
+    </script>
+</body>
+</html>
